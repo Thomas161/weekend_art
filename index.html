@@ -1,0 +1,186 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>React</title>
+    <script
+      crossorigin
+      src="https://unpkg.com/react@17/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"
+    ></script>
+    <script src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+    <link rel="stylesheet" href="./css/style.css" type="text/css" />
+  </head>
+  <body>
+    <div class="flexContainer">
+      <div id="root"></div>
+      <div class="imgContainer">
+        <img
+          src="./pictures/clint.jpg"
+          alt=""
+          class="clip-img-1"
+          width="290px"
+          height="290px"
+        />;
+        <img
+          src="./pictures/chance.jpg"
+          alt=""
+          class="clip-img-2"
+          width="290px"
+          height="290px"
+        />
+        <img
+          src="./pictures/kurt.jpeg"
+          alt=""
+          class="clip-img-3"
+          width="290px"
+          height="290px"
+        />
+        <img
+          src="./pictures/slater.jpg"
+          alt=""
+          class="clip-img-4"
+          width="290px"
+          height="290px"
+        />
+      </div>
+      <div class="content">
+        <h2>Water</h2>
+        <h2>Water</h2>
+      </div>
+    </div>
+    <footer>
+      <ul class="ulItems">
+        <li class="circle"></li>
+        <li class="circle"></li>
+        <li class="circle"></li>
+        <li class="circle"></li>
+        <li class="circle"></li>
+        <li class="circle"></li>
+        <li class="circle"></li>
+        <li class="circle"></li>
+        <li class="circle"></li>
+        <li class="circle"></li>
+        <li class="circle"></li>
+        <li class="circle"></li>
+        <li class="circle"></li>
+        <li class="circle"></li>
+        <li class="circle"></li>
+        <li class="circle"></li>
+        <li class="circle"></li>
+        <li class="circle"></li>
+        <li class="circle"></li>
+        <li class="circle"></li>
+      </ul>
+    </footer>
+
+    <script type="text/babel">
+      let emojiList = [
+        {
+          id: 1,
+          title: "Smile",
+          symbol: "😊",
+        },
+        { id: 2, title: "sad", symbol: "😔" },
+        {
+          id: 3,
+          title: "angry",
+          symbol: "😠",
+        },
+        {
+          id: 4,
+          title: "kissing",
+          symbol: "😗",
+        },
+        {
+          id: 5,
+          title: "sneezing",
+          symbol: "🤧",
+        },
+        {
+          id: 6,
+          title: "astonished",
+          symbol: "😲",
+        },
+      ];
+
+      class App extends React.Component {
+        constructor(props) {
+          super(props);
+
+          this.state = {
+            filteredEmoji: emojiFilter("", 3),
+            isEmojiRendered: false,
+          };
+          this.handleChange = this.handleChange.bind(this);
+          //   this.emojiFilter = this.emojiFilter.bind(this);
+        }
+
+        handleChange(event) {
+          this.setState({
+            filteredEmoji: emojiFilter(event.target.value, 3),
+            isEmojiRendered: true,
+          });
+        }
+
+        render() {
+          return (
+            <div className="app">
+              <SearchInput onChange={this.handleChange} />
+              {this.state.isEmojiRendered ? (
+                <EmojiRender emojiData={this.state.filteredEmoji} />
+              ) : null}
+            </div>
+          );
+        }
+      }
+
+      class SearchInput extends React.Component {
+        render() {
+          return (
+            <label>
+              Search Emoji
+              <input
+                type="text"
+                value={this.props.value}
+                onChange={this.props.onChange}
+              />
+            </label>
+          );
+        }
+      }
+
+      function emojiFilter(searchText, maxResults) {
+        return emojiList
+          .filter((emoji) => {
+            if (emoji.title.toLowerCase().includes(searchText.toLowerCase())) {
+              return true;
+            } else {
+              return false;
+            }
+          })
+          .slice(0, maxResults);
+      }
+
+      function EmojiRender({ emojiData }) {
+        return (
+          <div className="emojiPlace">
+            {emojiData.map((v) => (
+              <ul key={v.id}>
+                <li key={v.id} style={{ fontSize: "47px" }}>
+                  {v.symbol}
+                </li>
+              </ul>
+            ))}
+          </div>
+        );
+      }
+
+      ReactDOM.render(<App />, document.querySelector("#root"));
+    </script>
+  </body>
+</html>
